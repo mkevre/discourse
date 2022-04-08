@@ -134,7 +134,7 @@ acceptance("Admin - Suspend User - timeframe choosing", function (needs) {
       I18n.t("time_shortcut.later_today"),
       I18n.t("time_shortcut.tomorrow"),
       I18n.t("time_shortcut.later_this_week"),
-      I18n.t("time_shortcut.start_of_next_business_week"),
+      I18n.t("time_shortcut.start_of_next_business_week_alt"),
       I18n.t("time_shortcut.two_weeks"),
       I18n.t("time_shortcut.next_month"),
       I18n.t("time_shortcut.two_months"),
