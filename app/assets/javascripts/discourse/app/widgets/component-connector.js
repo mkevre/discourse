@@ -28,6 +28,10 @@ export default class ComponentConnector {
     return this.elem;
   }
 
+  destroy() {
+    console.log("destroy?????", this);
+  }
+
   update(prev) {
     // mutated external properties might not correctly update the underlying component
     // in this case we can define trackedProperties, if different from previous

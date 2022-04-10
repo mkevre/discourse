@@ -332,6 +332,25 @@ export default createWidget("header", {
   buildKey: () => `header`,
   services: ["router", "search"],
 
+  init() {
+    this._userMenuCloseListener = (() => {
+      this.state.userVisible = false;
+      this.scheduleRerender();
+    }).bind(this);
+
+    document.addEventListener(
+      "discourse-header:close-user-menu",
+      this._userMenuCloseListener
+    );
+  },
+
+  destroy() {
+    document.removeEventListener(
+      "discourse-header:close-user-menu",
+      this._userMenuCloseListener
+    );
+  },
+
   defaultState() {
     let states = {
       searchVisible: false,
@@ -379,16 +398,23 @@ export default createWidget("header", {
         );
       } else if (state.hamburgerVisible) {
         panels.push(this.attach("hamburger-menu"));
-      } else if (state.userVisible) {
-        if (this.siteSettings.enable_revamped_user_menu) {
-          panels.push(
-            new ComponentConnector(this, "user-menu-wrapper", {}, [], {
+      } else if (
+        state.userVisible &&
+        !this.siteSettings.enable_revamped_user_menu
+      ) {
+        panels.push(this.attach("user-menu"));
+      } else if (this.siteSettings.enable_revamped_user_menu) {
+        panels.push(
+          new ComponentConnector(
+            this,
+            "user-menu-wrapper",
+            { closed: !state.userVisible },
+            ["closed"],
+            {
               applyStyle: false,
-            })
-          );
-        } else {
-          panels.push(this.attach("user-menu"));
-        }
+            }
+          )
+        );
       }
 
       additionalPanels.map((panel) => {

@@ -70,6 +70,10 @@ export default createWidget("hamburger-menu", {
     return { loaded: false, loading: false };
   },
 
+  destroy() {
+    console.log("ham destroyed");
+  },
+
   adminLinks() {
     const { currentUser } = this;
 
